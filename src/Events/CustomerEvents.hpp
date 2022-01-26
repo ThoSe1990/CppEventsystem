@@ -10,13 +10,11 @@ public:
     NewCustomerEvent(std::size_t Id, const std::string& Name, const std::string& Address) :
         id(Id), name(Name), address(Address) 
         {}
-
     std::size_t id;
     std::string name;
     std::string address;
 
     EVENT_CLASS_TYPE(NewCustomerEvent);
-
 };
 
 class DeleteCustomerEvent : public Event 

@@ -4,6 +4,8 @@
 
 
 #define BIND_MEMBERFUNC_WITH_EVENT(member_function) [this](auto&&... args) { return this->member_function(std::forward<decltype(args)>(args)...); }
+
+// some more bindings to call member functions without the event ore regular functions (with and without event)
 #define BIND_MEMBERFUNC_WO_EVENT(member_function) [this]() { return this->member_function(); }
 #define BIND_FUNC_WITH_EVENT(function) []() { return function(); }
 #define BIND_FUNC_WO_EVENT(function) [](auto&&... args) { return function(std::forward<decltype(args)>(args)...); }
@@ -28,16 +30,16 @@ public:
 };
 
 
-#define EVENT_CLASS_TYPE(type) static EventType GetConcreteType() { return EventType::type; }\
-                                EventType GetType() const override { return GetConcreteType(); }\
-                                const char* GetName() const override { return #type; }
+#define EVENT_CLASS_TYPE(type) \
+    static EventType GetConcreteType() { return EventType::type; }\
+    EventType GetType() const override { return GetConcreteType(); }\
+    const char* GetName() const override { return #type; }
 
 
 
 
 class Dispatcher 
 {
-    Event& event;
 public: 
     Dispatcher(Event& e ) : event(e) {}
 
@@ -51,6 +53,7 @@ public:
         }
     }
 
+    // if you want to dispatch function without passing the event to it
     template<typename T, typename F> 
     void DispatchWithoutEvent(const F& function) 
     {
@@ -60,6 +63,9 @@ public:
             event.Handled = true;
         }
     }
+
+private:
+    Event& event;
 };
 
 

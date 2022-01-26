@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 
     // some events created by clients or any interface
     NewCustomerEvent newCustomer(123, "Thomas", "Munich");
-    customers.OnEvent(newCustomer);
+    customers.OnEvent(newCustomer); 
 
     DeleteCustomerEvent deleteCustomer(456);
     customers.OnEvent(deleteCustomer);
